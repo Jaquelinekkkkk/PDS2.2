@@ -79,7 +79,7 @@ public class CadastroUsuariosController {
     void btnIncluirAlterarClick(ActionEvent event) throws SQLException {
         try{
         if(usuarioSelecionado == null){
-            
+           // if(txtNome.getText().isEmpty()|| txtLogin.getText().isEmpty()||   txtSenha.getText().isEmpty()|| txtTelefone.getText().isEmpty()|| txtEmail.getText().isEmpty()||)
             if(txtEmail.getText().isEmpty()|| txtNome.getText().isEmpty()||
                     txtTelefone.getText().isEmpty()|| txtLogin.getText().isEmpty()||
                     txtSenha.getText().isEmpty()|| cbPerfil.getValue().isEmpty()|| txtAniversario.getText().isEmpty()){
