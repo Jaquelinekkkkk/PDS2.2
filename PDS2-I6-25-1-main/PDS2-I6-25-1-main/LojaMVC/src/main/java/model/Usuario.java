@@ -184,11 +184,11 @@ public class Usuario implements Serializable {
         this.email = email;
     }
     
-    private transient ObjectProperty<LocalDate> aniversarioProperty;
+    private transient StringProperty aniversarioProperty;
 
-    public ObjectProperty<LocalDate>  aniversarioProperty() {
+    public StringProperty  aniversarioProperty() {
         if (aniversarioProperty == null) {
-            aniversarioProperty = new SimpleObjectProperty<LocalDate>(aniversario);
+            aniversarioProperty = new SimpleStringProperty(aniversario.toString());
         }
         return aniversarioProperty;
     }

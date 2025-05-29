@@ -144,9 +144,8 @@ public class ListagemUsuariosController {
                     return usuario.getNome().toLowerCase().contains(filtro)
                             || usuario.getLogin().toLowerCase().contains(filtro)
                             || usuario.getFone().toLowerCase().contains(filtro)
-                            || usuario.getPerfil().toLowerCase().contains(filtro)          
-                            || usuario.getAniversario().toLowerCase().contains(filtro)
-                            || usuario.getEmail().toLowerCase().contains(filtro);
+                            || usuario.getPerfil().toLowerCase().contains(filtro);          
+                            
 
                 });
             });

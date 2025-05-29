@@ -87,7 +87,7 @@ public class CadastroUsuariosController {
             
             incluir(txtNome.getText(),
             txtTelefone.getText(), txtLogin.getText(),
-            txtSenha.getText(), cbPerfil.getValue(), txtAniversario.getText(), txtEmail.getText());
+            txtSenha.getText(), cbPerfil.getValue(), txtAniversario.getDate(), txtEmail.getText());
             } else{
                 mostrarAviso("Atencao","Todos os campos prescisam ser preenchiados corretamente!");
             }
@@ -95,7 +95,7 @@ public class CadastroUsuariosController {
         } else {
             alterar(usuarioSelecionado.getId(), txtNome.getText(),
                     txtTelefone.getText(), txtLogin.getText(),
-                    txtSenha.getText(), cbPerfil.getValue(), txtAniversario.getText(), txtEmail.getText());
+                    txtSenha.getText(), cbPerfil.getValue(), txtAniversario.getDate(), txtEmail.getText());
         }
           }catch(SQLException e){
             mostrarErro("ERRO","ERRO AO CONECTAR O BANCO DE DADOS");
