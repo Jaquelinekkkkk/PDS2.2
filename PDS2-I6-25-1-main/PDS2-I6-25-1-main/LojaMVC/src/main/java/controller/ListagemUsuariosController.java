@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -120,7 +122,9 @@ public class ListagemUsuariosController {
             TableColumn<Usuario, String> colunaAniversario
                     = new TableColumn<>("Aniversario");
             colunaAniversario.setCellValueFactory(u
-                    -> u.getValue().aniversarioProperty());
+                    -> new SimpleStringProperty(u.getValue().getAniversario().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
+);
+
             
              TableColumn<Usuario, String> colunaEmail
                     = new TableColumn<>("Email");
@@ -145,7 +149,8 @@ public class ListagemUsuariosController {
                             || usuario.getLogin().toLowerCase().contains(filtro)
                             || usuario.getFone().toLowerCase().contains(filtro)
                             || usuario.getPerfil().toLowerCase().contains(filtro)          
-                            || usuario.getAniversario().toLowerCase().contains(filtro)
+                           // || usuario.getAniversario().toLowerCase().contains(filtro)
+                             || usuario.getAniversario().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toLowerCase().contains(filtro)
                             || usuario.getEmail().toLowerCase().contains(filtro);
 
                 });

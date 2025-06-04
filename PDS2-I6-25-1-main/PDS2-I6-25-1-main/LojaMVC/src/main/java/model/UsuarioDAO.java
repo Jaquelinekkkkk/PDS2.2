@@ -12,7 +12,7 @@ public class UsuarioDAO extends GenericDAO {
     // Método para salvar usuarios
     public void salvar(Usuario usuario) throws SQLException {
         String insert = "INSERT INTO USUARIOS(nome, fone, login, senha, perfil, aniversario, email) VALUES(?,?,?,?,?,?,?)";
-          save(insert, usuario.getNome(), usuario.getFone(), usuario.getLogin(), usuario.getSenha(), usuario.getPerfil(),usuario.getAniversario(), usuario.getEmail());
+          save(insert, usuario.getNome(), usuario.getFone(), usuario.getLogin(), usuario.getSenha(), usuario.getPerfil(),Date.valueOf(usuario.getAniversario()), usuario.getEmail());
     }
 
     // Método para alterar usuarios
@@ -20,7 +20,7 @@ public class UsuarioDAO extends GenericDAO {
         String update = "UPDATE USUARIOS " + "SET nome = ?, fone = ?, login = ?, senha = ?, perfil= ? , aniversario = ?, email = ? "
                 + "WHERE ID = ?";
 		update(update, usuario.getId(), usuario.getNome(), usuario.getFone(), usuario.getLogin(),
-				usuario.getSenha(), usuario.getPerfil(), usuario.getAniversario(), usuario.getEmail());
+				usuario.getSenha(), usuario.getPerfil(), Date.valueOf(usuario.getAniversario()), usuario.getEmail());
     }
 
     // Método para excluir usuarios
@@ -44,10 +44,8 @@ public class UsuarioDAO extends GenericDAO {
             usuario.setFone(rs.getString("fone"));
             usuario.setLogin(rs.getString("login"));
             usuario.setSenha(rs.getString("senha"));
-            usuario.setPerfil(rs.getString("perfil"));
-         
-             
-           usuario.setAniversario(rs.getString("aniversario"));
+            usuario.setPerfil(rs.getString("perfil"));     
+            usuario.setAniversario(rs.getDate("aniversario").toLocalDate());
             usuario.setEmail(rs.getString("email"));
 
             lista.add(usuario);
@@ -74,7 +72,7 @@ public class UsuarioDAO extends GenericDAO {
             usuario.setLogin(rs.getString("login"));
             usuario.setSenha(rs.getString("senha"));
             usuario.setPerfil(rs.getString("perfil"));
-            usuario.setAniversario(rs.getLocalDate("aniversario"));
+            usuario.setAniversario(rs.getDate("aniversario").toLocalDate());
             usuario.setEmail(rs.getString("email"));
         }
 

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 public class LoginDAO extends GenericDAO{
     
@@ -40,6 +41,8 @@ public class LoginDAO extends GenericDAO{
 				usuario.setLogin(rs.getString("login"));
 				usuario.setSenha(rs.getString("senha"));
 				usuario.setPerfil(rs.getString("perfil"));
+                                usuario.setEmail(rs.getString("email"));
+                                usuario.setAniversario(rs.getDate("aniversario").toLocalDate());
 			}
 
 			rs.close();
