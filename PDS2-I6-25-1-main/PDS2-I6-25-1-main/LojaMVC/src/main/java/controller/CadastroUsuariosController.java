@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -61,8 +62,8 @@ public class CadastroUsuariosController {
 
     @FXML
     private Label lblEmail;
-      @FXML
-    private TextField txtAniversario;
+        @FXML
+    private DatePicker aniversario;
 
     @FXML
     private TextField txtEmail;
@@ -92,7 +93,7 @@ public class CadastroUsuariosController {
            // if(txtNome.getText().isEmpty()|| txtLogin.getText().isEmpty()||   txtSenha.getText().isEmpty()|| txtTelefone.getText().isEmpty()|| txtEmail.getText().isEmpty()||)
             if(txtEmail.getText().isEmpty()|| txtNome.getText().isEmpty()||
                     txtTelefone.getText().isEmpty()|| txtLogin.getText().isEmpty()||
-                    txtSenha.getText().isEmpty()|| cbPerfil.getValue().isEmpty()|| txtAniversario.getText().isEmpty()){
+                    txtSenha.getText().isEmpty()|| cbPerfil.getValue().isEmpty()){
             
               AlertaUtil.mostrarErro("Campos não preenchidos",
                 "Você deve preencher todos os campos!");
@@ -105,10 +106,10 @@ public class CadastroUsuariosController {
               return;
              }
             else{
-                    LocalDate aniversario = LocalDate.parse(txtAniversario.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+   
                incluir(txtNome.getText(),
             txtTelefone.getText(), txtLogin.getText(),
-            txtSenha.getText(), cbPerfil.getValue(), aniversario, txtEmail.getText());
+            txtSenha.getText(), cbPerfil.getValue(), aniversario.getValue(), txtEmail.getText());
             } 
             
             }else{
@@ -121,10 +122,10 @@ public class CadastroUsuariosController {
             }
             
              else {
-                    LocalDate aniversario = LocalDate.parse(txtAniversario.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                  
                  alterar(usuarioSelecionado.getId(), txtNome.getText(),
                     txtTelefone.getText(), txtLogin.getText(),
-                    txtSenha.getText(), cbPerfil.getValue(), aniversario, txtEmail.getText());
+                    txtSenha.getText(), cbPerfil.getValue(), aniversario.getValue(), txtEmail.getText());
         }
           //}catch(SQLException e){
           //  mostrarErro("ERRO","ERRO AO CONECTAR O BANCO DE DADOS");
@@ -154,7 +155,7 @@ public class CadastroUsuariosController {
             txtEmail.setText(user.getEmail());
            // txtAniversario.setText(user.getAniversario());
            // txtAniversario.setValue(user.getAniversario());
-           txtAniversario.setText(user.getAniversario().toString());
+           aniversario.setValue(user.getAniversario());
         }
     }
 
