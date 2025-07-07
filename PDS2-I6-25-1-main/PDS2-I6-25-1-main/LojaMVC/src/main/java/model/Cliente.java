@@ -1,83 +1,134 @@
 package model;
 
 import java.sql.Date;
-
+import javafx.beans.property.*;
 
 public class Cliente {
-    private int id;
-    private String nome;
-    private String telefone;
-    private String endereco;
-    private Date dataNascimento;
 
-    /**
-     * @return the id
-     */
+    private transient IntegerProperty idProperty;
+    private transient StringProperty nomeProperty;
+    private transient StringProperty telefoneProperty;
+    private transient StringProperty enderecoProperty;
+    private transient ObjectProperty<Date> dataNascimentoProperty;
+
+    // Construtor vazio
+    public Cliente() {
+    }
+
+    // Construtor com id
+    public Cliente(int id, String nome, String telefone, String endereco, Date dataNascimento) {
+        this.idProperty = new SimpleIntegerProperty(id);
+        this.nomeProperty = new SimpleStringProperty(nome);
+        this.telefoneProperty = new SimpleStringProperty(telefone);
+        this.enderecoProperty = new SimpleStringProperty(endereco);
+        this.dataNascimentoProperty = new SimpleObjectProperty<>(dataNascimento);
+    }
+
+    // Construtor sem id
+    public Cliente(String nome, String telefone, String endereco, Date dataNascimento) {
+        this.nomeProperty = new SimpleStringProperty(nome);
+        this.telefoneProperty = new SimpleStringProperty(telefone);
+        this.enderecoProperty = new SimpleStringProperty(endereco);
+        this.dataNascimentoProperty = new SimpleObjectProperty<>(dataNascimento);
+    }
+
+    // ID
     public int getId() {
-        return id;
+        return idProperty == null ? 0 : idProperty.get();
     }
 
-    /**
-     * @param id the id to set
-     */
     public void setId(int id) {
-        this.id = id;
+        if (idProperty == null) {
+            idProperty = new SimpleIntegerProperty(id);
+        } else {
+            idProperty.set(id);
+        }
     }
 
-    /**
-     * @return the nome
-     */
+    public IntegerProperty idProperty() {
+        if (idProperty == null) {
+            idProperty = new SimpleIntegerProperty(0);
+        }
+        return idProperty;
+    }
+
+    // Nome
     public String getNome() {
-        return nome;
+        return nomeProperty == null ? null : nomeProperty.get();
     }
 
-    /**
-     * @param nome the nome to set
-     */
     public void setNome(String nome) {
-        this.nome = nome;
+        if (nomeProperty == null) {
+            nomeProperty = new SimpleStringProperty(nome);
+        } else {
+            nomeProperty.set(nome);
+        }
     }
 
-    /**
-     * @return the telefone
-     */
+    public StringProperty nomeProperty() {
+        if (nomeProperty == null) {
+            nomeProperty = new SimpleStringProperty("");
+        }
+        return nomeProperty;
+    }
+
+    // Telefone
     public String getTelefone() {
-        return telefone;
+        return telefoneProperty == null ? null : telefoneProperty.get();
     }
 
-    /**
-     * @param telefone the telefone to set
-     */
     public void setTelefone(String telefone) {
-        this.telefone = telefone;
+        if (telefoneProperty == null) {
+            telefoneProperty = new SimpleStringProperty(telefone);
+        } else {
+            telefoneProperty.set(telefone);
+        }
     }
 
-    /**
-     * @return the endereco
-     */
+    public StringProperty telefoneProperty() {
+        if (telefoneProperty == null) {
+            telefoneProperty = new SimpleStringProperty("");
+        }
+        return telefoneProperty;
+    }
+
+    // Endereço
     public String getEndereco() {
-        return endereco;
+        return enderecoProperty == null ? null : enderecoProperty.get();
     }
 
-    /**
-     * @param endereco the endereco to set
-     */
     public void setEndereco(String endereco) {
-        this.endereco = endereco;
+        if (enderecoProperty == null) {
+            enderecoProperty = new SimpleStringProperty(endereco);
+        } else {
+            enderecoProperty.set(endereco);
+        }
     }
 
-    /**
-     * @return the dataNascimento
-     */
+    public StringProperty enderecoProperty() {
+        if (enderecoProperty == null) {
+            enderecoProperty = new SimpleStringProperty("");
+        }
+        return enderecoProperty;
+    }
+
+    // Data de nascimento
     public Date getDataNascimento() {
-        return dataNascimento;
+        return dataNascimentoProperty == null ? null : dataNascimentoProperty.get();
     }
 
-    /**
-     * @param dataNascimento the dataNascimento to set
-     */
     public void setDataNascimento(Date dataNascimento) {
-        this.dataNascimento = dataNascimento;
+        if (dataNascimentoProperty == null) {
+            dataNascimentoProperty = new SimpleObjectProperty<>(dataNascimento);
+        } else {
+            dataNascimentoProperty.set(dataNascimento);
+        }
     }
-    
+
+    public ObjectProperty<Date> dataNascimentoProperty() {
+        if (dataNascimentoProperty == null) {
+            dataNascimentoProperty = new SimpleObjectProperty<>(null);
+        }
+        return dataNascimentoProperty;
+    }
 }

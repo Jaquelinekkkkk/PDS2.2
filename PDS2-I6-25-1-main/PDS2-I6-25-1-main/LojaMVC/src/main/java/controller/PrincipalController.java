@@ -36,6 +36,8 @@ public class PrincipalController {
 
     @FXML
     private MenuItem menuCadastroUsuarios;
+     @FXML
+    private MenuItem menuCadastroClientes;
 
     @FXML
     private MenuItem menuFechar;
@@ -75,6 +77,28 @@ public class PrincipalController {
         telaListagemUsuarios.setScene(scene);
         telaListagemUsuarios.show();
     }
+    
+   @FXML
+void menuCadastroClientesClick(ActionEvent event) throws IOException {
+    URL url = new File("src/main/java/view/Cliente.fxml").toURI().toURL();
+    FXMLLoader loader = new FXMLLoader(url);
+    Parent root = loader.load();
+
+    Stage telaCadastroClientes = new Stage();
+
+    ClienteController clienteController = loader.getController();
+    clienteController.setStage(telaCadastroClientes);
+
+    telaCadastroClientes.setOnShown(evento -> {
+        clienteController.ajustarElementosJanela();
+    });
+
+    Scene scene = new Scene(root);
+
+    telaCadastroClientes.setTitle("Cadastro de Clientes");
+    telaCadastroClientes.setScene(scene);
+    telaCadastroClientes.show();
+}
 
     @FXML
     void menuFecharClick(ActionEvent event) {

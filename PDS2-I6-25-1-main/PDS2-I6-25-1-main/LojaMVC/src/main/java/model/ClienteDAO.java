@@ -1,54 +1,54 @@
 package model;
 
 import dal.ConexaoBD;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClienteDAO {
-    public void inserirCliente(Cliente cliente){
-        String sql = "INSERT INTO cliente (nome, telefone endereco, data_nascimento) VALUES (?, ?, ?, ?)";
+
+    public void inserirCliente(Cliente cliente) {
+        String sql = "INSERT INTO cliente (nome, telefone, endereco, data_nascimento) VALUES (?, ?, ?, ?)";
+
         try (Connection conn = ConexaoBD.conectar();
-                PreparedStatement stmt = conn.prepareStatement(sql)){
-            
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
             stmt.setString(1, cliente.getNome());
             stmt.setString(2, cliente.getTelefone());
             stmt.setString(3, cliente.getEndereco());
             stmt.setDate(4, cliente.getDataNascimento());
-            
-            stmt.executeUpdate();
-            System.out.println("Cliente inserido com sucesso!");
-            
-        } catch (SQLException e) {
-            System.err.println("Erro ao inserir cliente: " + e.getMessage());
 
+            stmt.executeUpdate();
+            System.out.println(" Cliente inserido com sucesso!");
+
+        } catch (SQLException e) {
+            System.err.println(" Erro ao inserir cliente: " + e.getMessage());
         }
     }
-    
-    public void listarCliente(){
+
+    public List<Cliente> listarClientes() {
+        List<Cliente> clientes = new ArrayList<>();
         String sql = "SELECT * FROM cliente";
-        
-        try(Connection conn = ConexaoBD.conectar();
-            PreparedStatement stmt = conn.prepareStatement(sql);
-                ResultSet rs = stmt.executeQuery()){
-             
-            while(rs.next()){
-                int id = rs.getInt("id");
-                String nome = rs.getString("Nome");
-                String telefone = rs.getString("telefone");
-                String endereco = rs.getString("endereco");
-                Date nascimento = rs.getDate("data_nascimento");
-                
-                System.out.println("ID: " + id + " | Nome: " + nome + " |Tel: " + telefone + 
-                        " | Endereco: " + endereco + " | Nascimento: " + nascimento);
-                
+
+        try (Connection conn = ConexaoBD.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Cliente cliente = new Cliente();
+                cliente.setId(rs.getInt("id"));
+                cliente.setNome(rs.getString("nome"));
+                cliente.setTelefone(rs.getString("telefone"));
+                cliente.setEndereco(rs.getString("endereco"));
+                cliente.setDataNascimento(rs.getDate("data_nascimento"));
+
+                clientes.add(cliente);
             }
+
         } catch (SQLException e) {
-            System.err.println("Erro ao listar clientes: " + e.getMessage());
+            System.err.println(" Erro ao listar clientes: " + e.getMessage());
         }
+
+        return clientes;
     }
 }

@@ -35,19 +35,19 @@ public class App extends Application {
         telaLogin.show();
     }
 
-    public static void main(String[] args) {
-       // launch();
-       ClienteDAO clienteDAO = new ClienteDAO();
-       
-       Cliente novoCliente = new Cliente();
-       novoCliente.setNome("JAQUE");
-       novoCliente.setTelefone("47988808621");
-       novoCliente.setEndereco("Gaspar");
-       novoCliente.setDataNascimento(Date.valueOf("2004-04-13"));
-       
-       clienteDAO.inserirCliente(novoCliente);
-       
-       clienteDAO.listarCliente();
-    }
+//    public static void main(String[] args) {
+//       // launch();
+//       ClienteDAO clienteDAO = new ClienteDAO();
+//       
+//       Cliente novoCliente = new Cliente();
+//       novoCliente.setNome("JAQUE");
+//       novoCliente.setTelefone("47988808621");
+//       novoCliente.setEndereco("Gaspar");
+//       novoCliente.setDataNascimento(Date.valueOf("2004-04-13"));
+//       
+//       clienteDAO.inserirCliente(novoCliente);
+//       
+//       clienteDAO.listarCliente();
+//    }
 
 }
