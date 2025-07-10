@@ -6,10 +6,10 @@ import javafx.collections.ObservableList;
 
 public class ClienteDAO extends GenericDAO {
 
-    //  Salvar novo cliente
+    // Salvar novo cliente
     public void salvar(Cliente cliente) throws SQLException {
-        String insert = "INSERT INTO cliente (nome, telefone, endereco, data_nascimento, login, senha) VALUES (?, ?, ?, ?, ?, ?)";
-        save(insert,
+        String sql = "INSERT INTO cliente (nome, telefone, endereco, data_nascimento, login, senha) VALUES (?, ?, ?, ?, ?, ?)";
+        save(sql,
             cliente.getNome(),
             cliente.getTelefone(),
             cliente.getEndereco(),
@@ -19,10 +19,10 @@ public class ClienteDAO extends GenericDAO {
         );
     }
 
-    //  Alterar cliente existente
+    // Alterar cliente existente
     public void alterar(Cliente cliente) throws SQLException {
-        String update = "UPDATE cliente SET nome = ?, telefone = ?, endereco = ?, data_nascimento = ?, login = ?, senha = ? WHERE id = ?";
-        update(update,
+        String sql = "UPDATE cliente SET nome = ?, telefone = ?, endereco = ?, data_nascimento = ?, login = ?, senha = ? WHERE id = ?";
+        update(sql,
             cliente.getNome(),
             cliente.getTelefone(),
             cliente.getEndereco(),
@@ -33,13 +33,13 @@ public class ClienteDAO extends GenericDAO {
         );
     }
 
-    //  Excluir cliente pelo ID
+    // Excluir cliente pelo ID
     public void excluir(int id) throws SQLException {
-        String delete = "DELETE FROM cliente WHERE id = ?";
-        delete(delete, id);
+        String sql = "DELETE FROM cliente WHERE id = ?";
+        delete(sql, id);
     }
 
-    //  Listar todos os clientes
+    // Listar todos os clientes
     public ObservableList<Cliente> listarClientes() throws SQLException {
         ObservableList<Cliente> lista = FXCollections.observableArrayList();
         String sql = "SELECT * FROM cliente";
@@ -93,7 +93,7 @@ public class ClienteDAO extends GenericDAO {
         return cliente;
     }
 
-    //  Autenticar cliente por login e senha
+    // Autenticar cliente por login e senha
     public Cliente autenticarCliente(String login, String senha) throws SQLException {
         Cliente cliente = null;
         String sql = "SELECT * FROM cliente WHERE login = ? AND senha = ?";

@@ -13,10 +13,8 @@ public class Cliente {
     private transient StringProperty loginProperty;
     private transient StringProperty senhaProperty;
 
-    // 🔹 Construtor vazio
     public Cliente() {}
 
-    // 🔹 Construtor com ID
     public Cliente(int id, String nome, String telefone, String endereco, Date dataNascimento, String login, String senha) {
         this.idProperty = new SimpleIntegerProperty(id);
         this.nomeProperty = new SimpleStringProperty(nome);
@@ -27,7 +25,6 @@ public class Cliente {
         this.senhaProperty = new SimpleStringProperty(senha);
     }
 
-    // 🔹 Construtor sem ID
     public Cliente(String nome, String telefone, String endereco, Date dataNascimento, String login, String senha) {
         this.nomeProperty = new SimpleStringProperty(nome);
         this.telefoneProperty = new SimpleStringProperty(telefone);
@@ -37,7 +34,7 @@ public class Cliente {
         this.senhaProperty = new SimpleStringProperty(senha);
     }
 
-    // 🆔 ID
+    // ?
     public int getId() {
         return idProperty == null ? 0 : idProperty.get();
     }
@@ -52,7 +49,7 @@ public class Cliente {
         return idProperty;
     }
 
-    // 👤 Nome
+    
     public String getNome() {
         return nomeProperty == null ? null : nomeProperty.get();
     }
@@ -67,7 +64,6 @@ public class Cliente {
         return nomeProperty;
     }
 
-    // 📞 Telefone
     public String getTelefone() {
         return telefoneProperty == null ? null : telefoneProperty.get();
     }
@@ -82,7 +78,6 @@ public class Cliente {
         return telefoneProperty;
     }
 
-    // 🏠 Endereço
     public String getEndereco() {
         return enderecoProperty == null ? null : enderecoProperty.get();
     }
@@ -97,7 +92,6 @@ public class Cliente {
         return enderecoProperty;
     }
 
-    // 🎂 Data de nascimento
     public Date getDataNascimento() {
         return dataNascimentoProperty == null ? null : dataNascimentoProperty.get();
     }
@@ -112,7 +106,6 @@ public class Cliente {
         return dataNascimentoProperty;
     }
 
-    // 🔐 Login
     public String getLogin() {
         return loginProperty == null ? null : loginProperty.get();
     }
@@ -127,7 +120,6 @@ public class Cliente {
         return loginProperty;
     }
 
-    // 🔐 Senha
     public String getSenha() {
         return senhaProperty == null ? null : senhaProperty.get();
     }

@@ -28,6 +28,11 @@
               <MenuItem fx:id="menuSobre" mnemonicParsing="false" text="Sobre" />
             </items>
           </Menu>
+            <Menu fx:id="menuProduto" mnemonicParsing="false" text="Produtos">
+               <items>
+                  <MenuItem fx:id="menuCadastroProduto" mnemonicParsing="false" onAction="#menuCadastroProdutoClick" text="CadastroProduto" />
+               </items>
+            </Menu>
         </menus>
       </MenuBar>
       <Pane layoutX="82.0" layoutY="361.0" prefHeight="25.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">

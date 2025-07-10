@@ -3,6 +3,8 @@ package controller;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,47 +19,54 @@ public class ClienteController {
 
     private final ClienteDAO clienteDAO = new ClienteDAO();
     private Stage stageCliente;
+    private Cliente clienteSelecionado;
 
-    @FXML
+    @FXML 
     private Button btnSalvar;
-
-    @FXML
+    
+    @FXML 
     private Button btnExcluir;
+    
+    @FXML 
+    private Button btnFechar;
 
-    @FXML
+    @FXML 
     private TextField txtNome;
-
-    @FXML
+    
+    @FXML 
     private TextField txtTelefone;
-
-    @FXML
+    
+    @FXML 
     private TextField txtEndereco;
-
-    @FXML
+    
+    
+    @FXML 
     private TextField txtDataNascimento;
-
-    @FXML
+    
+    @FXML 
     private TextField txtLogin;
-
-    @FXML
+    
+    @FXML 
     private PasswordField txtSenha;
+    
 
-    @FXML
+    @FXML 
     private TableView<Cliente> tabelaClientes;
-
-    @FXML
+    
+    @FXML 
     private TableColumn<Cliente, String> colNome;
-
-    @FXML
+    
+    @FXML 
     private TableColumn<Cliente, String> colTelefone;
-
-    @FXML
+    
+    @FXML 
     private TableColumn<Cliente, String> colEndereco;
-
-    @FXML
+    
+    @FXML 
     private TableColumn<Cliente, String> colDataNascimento;
+    
 
-    //  Botão SALVAR
+    // Botão SALVAR (inserir ou alterar)
     @FXML
     void btnSalvarClick(ActionEvent event) {
         if (camposVazios()) {
@@ -65,51 +74,95 @@ public class ClienteController {
             return;
         }
 
+        if (!dataFormatoValido(txtDataNascimento.getText())) {
+            AlertaUtil.mostrarErro("Data inválida", "Use o formato correto: YYYY-MM-DD.");
+            return;
+        }
+
         try {
             Date nascimentoFormatado = Date.valueOf(txtDataNascimento.getText());
-            Cliente cliente = new Cliente(
-                txtNome.getText(),
-                txtTelefone.getText(),
-                txtEndereco.getText(),
-                nascimentoFormatado,
-                txtLogin.getText(),
-                txtSenha.getText()
-            );
 
-            clienteDAO.salvar(cliente);
+            if (clienteSelecionado == null) {
+                // Novo cliente
+                Cliente cliente = new Cliente(
+                        txtNome.getText(),
+                        txtTelefone.getText(),
+                        txtEndereco.getText(),
+                        nascimentoFormatado,
+                        txtLogin.getText(),
+                        txtSenha.getText()
+                );
+
+                clienteDAO.salvar(cliente);
+                AlertaUtil.mostrarInformacao("Cliente cadastrado", "Cadastro realizado com sucesso!");
+            } else {
+                // Atualizar cliente
+                clienteSelecionado.setNome(txtNome.getText());
+                clienteSelecionado.setTelefone(txtTelefone.getText());
+                clienteSelecionado.setEndereco(txtEndereco.getText());
+                clienteSelecionado.setDataNascimento(nascimentoFormatado);
+                clienteSelecionado.setLogin(txtLogin.getText());
+                clienteSelecionado.setSenha(txtSenha.getText());
+
+                clienteDAO.alterar(clienteSelecionado);
+                AlertaUtil.mostrarInformacao("Cliente alterado", "Dados atualizados com sucesso!");
+            }
+
             limparCampos();
             carregarClientesTabela();
-            AlertaUtil.mostrarInformacao("Cliente cadastrado", "Cadastro realizado com sucesso!");
-        } catch (IllegalArgumentException e) {
-            AlertaUtil.mostrarErro("Data inválida", "Use o formato correto: YYYY-MM-DD.");
+            clienteSelecionado = null;
+
         } catch (SQLException e) {
-            AlertaUtil.mostrarErro("Erro ao salvar", "Não foi possível inserir o cliente.");
+            AlertaUtil.mostrarErro("Erro ao salvar", "Não foi possível inserir/alterar o cliente.");
             e.printStackTrace();
         }
     }
 
-    //  Botão EXCLUIR
+    // Botão EXCLUIR
     @FXML
     void btnExcluirClick(ActionEvent event) {
         Cliente selecionado = tabelaClientes.getSelectionModel().getSelectedItem();
         if (selecionado != null) {
-            excluirCliente(selecionado.getId());
+            Optional<ButtonType> resultado = AlertaUtil.mostrarConfirmacao("Confirmação",
+                    "Tem certeza que deseja excluir este cliente?");
+            if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+                excluirCliente(selecionado.getId());
+                limparCampos();
+                clienteSelecionado = null;
+            }
         } else {
             AlertaUtil.mostrarErro("Nenhum cliente selecionado", "Selecione um cliente na tabela.");
+        }
+    }
+
+    // Botão FECHAR
+    @FXML
+    void btnFecharClick(ActionEvent event) {
+        if (stageCliente != null) {
+            stageCliente.close();
+        } else {
+            // Alternativa se stageCliente não foi setado manualmente
+            Stage stage = (Stage) btnFechar.getScene().getWindow();
+            stage.close();
         }
     }
 
     // Verificação de campos obrigatórios
     private boolean camposVazios() {
         return txtNome.getText().isBlank()
-            || txtTelefone.getText().isBlank()
-            || txtEndereco.getText().isBlank()
-            || txtDataNascimento.getText().isBlank()
-            || txtLogin.getText().isBlank()
-            || txtSenha.getText().isBlank();
+                || txtTelefone.getText().isBlank()
+                || txtEndereco.getText().isBlank()
+                || txtDataNascimento.getText().isBlank()
+                || txtLogin.getText().isBlank()
+                || txtSenha.getText().isBlank();
     }
 
-    //  Limpar os campos do formulário
+    // Verifica se a data está no formato correto YYYY-MM-DD
+    private boolean dataFormatoValido(String data) {
+        return data.matches("\\d{4}-\\d{2}-\\d{2}");
+    }
+
+    // Limpar os campos do formulário
     private void limparCampos() {
         txtNome.clear();
         txtTelefone.clear();
@@ -117,20 +170,29 @@ public class ClienteController {
         txtDataNascimento.clear();
         txtLogin.clear();
         txtSenha.clear();
+        clienteSelecionado = null;
     }
 
-    //  Vincular controller à stage se necessário
+    // Vincular controller à stage (caso deseje controlar manualmente)
     public void setStage(Stage stageCliente) {
         this.stageCliente = stageCliente;
     }
 
-    //️ Inicializar elementos da janela
+    // Inicializar elementos da janela
     public void ajustarElementosJanela() {
         configurarTabela();
         carregarClientesTabela();
+
+        tabelaClientes.getSelectionModel().selectedItemProperty().addListener(
+                (obs, oldSelection, newSelection) -> {
+                    if (newSelection != null) {
+                        preencherCamposParaEdicao(newSelection);
+                    }
+                }
+        );
     }
 
-    //  Configurar colunas da tabela
+    // Configurar colunas da tabela
     private void configurarTabela() {
         colNome.setCellValueFactory(cellData -> cellData.getValue().nomeProperty());
         colTelefone.setCellValueFactory(cellData -> cellData.getValue().telefoneProperty());
@@ -150,7 +212,18 @@ public class ClienteController {
         }
     }
 
-    //  Buscar cliente específico (se usar em outra tela)
+    // Preencher campos para edição
+    private void preencherCamposParaEdicao(Cliente cliente) {
+        this.clienteSelecionado = cliente;
+        txtNome.setText(cliente.getNome());
+        txtTelefone.setText(cliente.getTelefone());
+        txtEndereco.setText(cliente.getEndereco());
+        txtDataNascimento.setText(cliente.getDataNascimento().toString());
+        txtLogin.setText(cliente.getLogin());
+        txtSenha.setText(cliente.getSenha());
+    }
+
+    // Buscar cliente específico
     public Cliente selecionarClientePorId(int id) {
         try {
             return clienteDAO.selecionarCliente(id);
@@ -161,7 +234,7 @@ public class ClienteController {
         }
     }
 
-    //  Remover cliente por ID
+    // Remover cliente por ID
     public void excluirCliente(int id) {
         try {
             clienteDAO.excluir(id);

@@ -24,7 +24,7 @@ import java.util.ResourceBundle;
 public class ListagemProdutosController implements Initializable {
 
     private Stage stage;
-    private Cliente clienteLogado; // 👤 cliente autenticado
+    private Cliente clienteLogado; // ? cliente autenticado
     private ObservableList<Produto> lista;
 
     @FXML
@@ -103,4 +103,6 @@ public class ListagemProdutosController implements Initializable {
             stage.close();
         }
     }
+
+    
 }

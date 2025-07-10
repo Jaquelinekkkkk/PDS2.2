@@ -52,7 +52,6 @@ public class LoginDAO extends GenericDAO {
         return usuario;
     }
 
-    // 🔐 Autentica clientes
     public Cliente autenticarCliente(String login, String senha) throws SQLException {
         Cliente cliente = null;
         String sql = "SELECT * FROM cliente WHERE login = ? AND senha = ?";

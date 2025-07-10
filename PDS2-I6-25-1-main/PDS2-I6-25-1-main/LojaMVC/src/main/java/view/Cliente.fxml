@@ -1,113 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?> <!-- Import necessário para usar <Insets> -->
 
-<AnchorPane prefHeight="548.0" prefWidth="550.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ClienteController">
+<AnchorPane prefHeight="560.0" prefWidth="550.0" xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ClienteController">
 
     <children>
-        <BorderPane prefHeight="520.0" prefWidth="520.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <BorderPane AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" 
+                    AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 
-            <!-- 🔹 Cabeçalho -->
             <top>
-                <Pane prefHeight="60.0" BorderPane.alignment="CENTER">
+                <Pane prefHeight="60.0">
                     <children>
-                        <Label alignment="CENTER" layoutY="22.0" prefHeight="20.0" prefWidth="520.0" text="Cadastro e listagem de clientes">
-                            <font><Font name="System Bold" size="16.0" /></font>
+                        <Label layoutX="0.0" layoutY="22.0" prefWidth="550.0" alignment="CENTER"
+                               text="Cadastro e Listagem de Clientes">
+                            <font><Font name="System Bold" size="16.0"/></font>
                         </Label>
                     </children>
                 </Pane>
             </top>
 
-            <!-- 🔹 Rodapé com botão -->
             <bottom>
-                <Pane prefHeight="60.0" BorderPane.alignment="CENTER">
+                <GridPane prefHeight="60.0" prefWidth="550.0" alignment="CENTER">
+                    <columnConstraints>
+                        <ColumnConstraints prefWidth="150.0"/>
+                        <ColumnConstraints prefWidth="150.0"/>
+                        <ColumnConstraints prefWidth="150.0"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints prefHeight="40.0"/>
+                    </rowConstraints>
                     <children>
-                        <GridPane prefHeight="59.0" prefWidth="520.0">
-                            <columnConstraints>
-                                <ColumnConstraints prefWidth="100.0" />
-                                <ColumnConstraints prefWidth="100.0" />
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints prefHeight="30.0" />
-                            </rowConstraints>
-                            <children>
-                                <Button fx:id="btnSalvar" onAction="#btnSalvarClick" prefHeight="30.0" prefWidth="183.0" text="Salvar Cliente" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
-                                    <font><Font name="System Bold" size="14.0" /></font>
-                                </Button>
-                            </children>
-                        </GridPane>
+                        <Button fx:id="btnSalvar" text="Salvar Cliente" onAction="#btnSalvarClick"
+                                prefWidth="130.0" GridPane.columnIndex="0"/>
+                        <Button fx:id="btnExcluir" text="Excluir Cliente" onAction="#btnExcluirClick"
+                                prefWidth="130.0" GridPane.columnIndex="1"/>
+                        <Button fx:id="btnFechar" text="Fechar" onAction="#btnFecharClick"
+                                prefWidth="130.0" GridPane.columnIndex="2"/>
                     </children>
-                </Pane>
+                </GridPane>
             </bottom>
 
-            <!-- 🔹 Formulário + Tabela -->
             <center>
-                <Pane prefHeight="274.0" prefWidth="550.0" BorderPane.alignment="CENTER">
-                    <children>
-                        <!-- Formulário -->
-                        <GridPane hgap="50.0" layoutX="66.0" layoutY="20.0" prefHeight="250.0" prefWidth="419.0">
-                            <columnConstraints>
-                                <ColumnConstraints prefWidth="126.0" />
-                                <ColumnConstraints prefWidth="243.0" />
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints prefHeight="30.0" />
-                                <RowConstraints prefHeight="30.0" />
-                                <RowConstraints prefHeight="30.0" />
-                                <RowConstraints prefHeight="30.0" />
-                                <RowConstraints prefHeight="30.0" />
-                                <RowConstraints prefHeight="30.0" />
-                            </rowConstraints>
+                <VBox spacing="10.0">
+                    <padding>
+                        <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
+                    </padding>
 
-                            <children>
-                                <Label text="Nome" GridPane.rowIndex="0" />
-                                <TextField fx:id="txtNome" promptText="Ex: Jaqueline Brandão" GridPane.columnIndex="1" />
+                    <GridPane hgap="20.0" vgap="10.0">
+                        <columnConstraints>
+                            <ColumnConstraints prefWidth="120.0"/>
+                            <ColumnConstraints prefWidth="300.0"/>
+                        </columnConstraints>
+                        <children>
+                            <Label text="Nome:" GridPane.rowIndex="0"/>
+                            <TextField fx:id="txtNome" promptText="Ex: Maria da Silva" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
 
-                                <Label text="Telefone" GridPane.rowIndex="1" />
-                                <TextField fx:id="txtTelefone" promptText="Ex: 47988808621" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                            <Label text="Telefone:" GridPane.rowIndex="1"/>
+                            <TextField fx:id="txtTelefone" promptText="Ex: 47988808621" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
-                                <Label text="Endereço" GridPane.rowIndex="2" />
-                                <TextField fx:id="txtEndereco" promptText="Ex: Rua xxxx" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                            <Label text="Endereço:" GridPane.rowIndex="2"/>
+                            <TextField fx:id="txtEndereco" promptText="Ex: Rua das Flores" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
-                                <Label text="Data de nascimento" GridPane.rowIndex="3" />
-                                <TextField fx:id="txtDataNascimento" promptText="Formato: yyyy-mm-dd" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                            <Label text="Data de nascimento:" GridPane.rowIndex="3"/>
+                            <TextField fx:id="txtDataNascimento" promptText="YYYY-MM-DD" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
 
-                                <Label text="Login" GridPane.rowIndex="4" />
-                                <TextField fx:id="txtLogin" promptText="Ex: jaque123" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                            <Label text="Login:" GridPane.rowIndex="4"/>
+                            <TextField fx:id="txtLogin" promptText="Ex: maria123" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
 
-                                <Label text="Senha" GridPane.rowIndex="5" />
-                                <PasswordField fx:id="txtSenha" promptText="Ex: ********" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                            </children>
-                        </GridPane>
+                            <Label text="Senha:" GridPane.rowIndex="5"/>
+                            <PasswordField fx:id="txtSenha" promptText="********" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+                        </children>
+                    </GridPane>
 
-                              <!-- Tabela -->
-                        <ScrollPane layoutX="64.0" layoutY="220.0" prefHeight="207.0" prefWidth="423.0">
-                            <content>
-                                <TableView fx:id="tabelaClientes" prefHeight="206.0" prefWidth="406.0">
-                                    <columns>
-                                        <TableColumn fx:id="colNome" prefWidth="150.0" text="Nome" />
-                                        <TableColumn fx:id="colTelefone" prefWidth="100.0" text="Telefone" />
-                                        <TableColumn fx:id="colEndereco" prefWidth="100.0" text="Endereço" />
-                                        <TableColumn fx:id="colDataNascimento" prefWidth="120.0" text="Data Nascimento" />
-                                    </columns>
-                                </TableView>
-                            </content>
-                        </ScrollPane>
-                    </children>
-                </Pane>
+                    <TableView fx:id="tabelaClientes" prefHeight="200.0">
+                        <columns>
+                            <TableColumn fx:id="colNome" prefWidth="150.0" text="Nome"/>
+                            <TableColumn fx:id="colTelefone" prefWidth="100.0" text="Telefone"/>
+                            <TableColumn fx:id="colEndereco" prefWidth="100.0" text="Endereço"/>
+                            <TableColumn fx:id="colDataNascimento" prefWidth="120.0" text="Nascimento"/>
+                        </columns>
+                    </TableView>
+                </VBox>
             </center>
         </BorderPane>
     </children>
