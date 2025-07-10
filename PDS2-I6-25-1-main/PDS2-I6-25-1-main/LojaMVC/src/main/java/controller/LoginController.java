@@ -20,6 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import model.Cliente;
 import model.LoginDAO;
 import model.Usuario;
 import util.AlertaUtil;
@@ -98,29 +99,44 @@ public class LoginController {
         verificarBanco();
     }
 
-    public void processarLogin() throws IOException, SQLException {
-        if (!dao.bancoOnline()) {
-            AlertaUtil.mostrarErro("Erro", "Banco de dados desconectado!");
-        } else if (txtUsuario.getText() != null && !txtUsuario.getText().isEmpty() && txtSenha.getText() != null && !txtSenha.getText().isEmpty()) {
-            listaDados = autenticar(txtUsuario.getText(),
-                    txtSenha.getText());
-            if (listaDados != null) {
-                AlertaUtil.mostrarInformacao("Informação", "Bem vindo "
-                        + listaDados.get(0) + " acesso liberado!" );
-                if (stageLogin != null) {
-                    stageLogin.close();
-                }
-                abrirTelaPrincipal(listaDados);
-            } else {
-//                System.out.println("Usuário e senha invalidos!");
-                  AlertaUtil.mostrarErro("Erro", "Usuário e senha inválidos!");
-            }
-        } else {
-//            System.out.println("Verifique as informações!");
-                AlertaUtil.mostrarErro("Erro", "Verifique as informações!");
-        }
-
+   public void processarLogin() throws IOException, SQLException {
+    if (!dao.bancoOnline()) {
+        AlertaUtil.mostrarErro("Erro", "Banco de dados desconectado!");
+        return;
     }
+
+    String login = txtUsuario.getText().trim();
+    String senha = txtSenha.getText().trim();
+
+    if (login.isEmpty() || senha.isEmpty()) {
+        AlertaUtil.mostrarErro("Erro", "Preencha login e senha.");
+        return;
+    }
+
+    // 🎯 Tenta autenticar como usuário do sistema
+    user = dao.autenticar(login, senha);
+    if (user != null) {
+        listaDados = new ArrayList<>();
+        listaDados.add(user.getNome());
+        listaDados.add(user.getPerfil());
+
+        AlertaUtil.mostrarInformacao("Login aprovado", "Bem-vindo " + user.getNome() + "!");
+        if (stageLogin != null) stageLogin.close();
+        abrirTelaPrincipal(listaDados);
+        return;
+    }
+
+    // 🧑‍💼 Se não for usuário, tenta como cliente
+    Cliente cliente = dao.autenticarCliente(login, senha);
+if (cliente != null) {
+    AlertaUtil.mostrarInformacao("Login cliente", "Bem-vindo " + cliente.getNome() + "!");
+    if (stageLogin != null) stageLogin.close();
+    abrirTelaListagemProduto(cliente); // ✅ agora abre tela de produtos
+} else {
+    AlertaUtil.mostrarErro("Login inválido", "Usuário ou senha incorretos.");
+}
+
+}
 
     private ArrayList<String> autenticar(String login, String senha) throws SQLException {
         user = dao.autenticar(login, senha);
@@ -155,5 +171,22 @@ public class LoginController {
         telaPrincipal.setScene(scene);
         telaPrincipal.show();
     }
+   private void abrirTelaListagemProduto(Cliente cliente) throws IOException {
+    URL url = new File("src/main/java/view/ListagemProduto.fxml").toURI().toURL();
+    FXMLLoader loader = new FXMLLoader(url);
+    Parent root = loader.load();
+    Stage telaProduto = new Stage();
+
+    ListagemProdutosController controller = loader.getController();
+    controller.setStage(telaProduto);
+    controller.setCliente(cliente); // ✅
+
+    telaProduto.setScene(new Scene(root));
+    telaProduto.setTitle("Listagem de Produtos");
+    //telaProduto.getIcons().add(new Image(getClass().getResourceAsStream("/icones/produtos.png")));
+    telaProduto.show();
+}
+
+
 
 }

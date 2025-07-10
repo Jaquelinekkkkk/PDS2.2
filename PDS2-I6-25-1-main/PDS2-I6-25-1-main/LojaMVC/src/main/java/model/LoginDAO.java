@@ -52,35 +52,34 @@ public class LoginDAO extends GenericDAO {
         return usuario;
     }
 
-    // ?Autentica  clientes (perfil = 'user')
+    // 🔐 Autentica clientes
     public Cliente autenticarCliente(String login, String senha) throws SQLException {
-    Cliente cliente = null;
-    String sql = "SELECT * FROM cliente WHERE login = ? AND senha = ?";
+        Cliente cliente = null;
+        String sql = "SELECT * FROM cliente WHERE login = ? AND senha = ?";
 
-    Connection con = conectarDAO();
-    if (con != null) {
-        PreparedStatement stmt = con.prepareStatement(sql);
-        stmt.setString(1, login);
-        stmt.setString(2, senha);
-        ResultSet rs = stmt.executeQuery();
+        Connection con = conectarDAO();
+        if (con != null) {
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, login.trim());
+            stmt.setString(2, senha.trim());
+            ResultSet rs = stmt.executeQuery();
 
-        if (rs.next()) {
-            cliente = new Cliente();
-            cliente.setId(rs.getInt("id"));
-            cliente.setNome(rs.getString("nome"));
-            cliente.setTelefone(rs.getString("telefone"));
-            cliente.setEndereco(rs.getString("endereco"));
-            cliente.setDataNascimento(rs.getDate("data_nascimento"));
-            cliente.setLogin(rs.getString("login"));
-            cliente.setSenha(rs.getString("senha"));
+            if (rs.next()) {
+                cliente = new Cliente();
+                cliente.setId(rs.getInt("id"));
+                cliente.setNome(rs.getString("nome"));
+                cliente.setTelefone(rs.getString("telefone"));
+                cliente.setEndereco(rs.getString("endereco"));
+                cliente.setDataNascimento(rs.getDate("data_nascimento"));
+                cliente.setLogin(rs.getString("login"));
+                cliente.setSenha(rs.getString("senha"));
+            }
+
+            rs.close();
+            stmt.close();
+            con.close();
         }
 
-        rs.close();
-        stmt.close();
-        con.close();
+        return cliente;
     }
-
-    return cliente;
-}
-
 }

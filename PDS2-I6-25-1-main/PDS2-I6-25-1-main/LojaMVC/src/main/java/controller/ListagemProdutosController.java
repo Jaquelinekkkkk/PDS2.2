@@ -12,18 +12,20 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import model.Cliente;
 import model.Produto;
+import model.ProdutoDAO;
 import util.AlertaUtil;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-import model.ProdutoDAO;
 
 public class ListagemProdutosController implements Initializable {
 
     private Stage stage;
-    ObservableList<Produto> lista;
+    private Cliente clienteLogado; // 👤 cliente autenticado
+    private ObservableList<Produto> lista;
 
     @FXML
     private TextField txtPesquisarProduto;
@@ -36,6 +38,11 @@ public class ListagemProdutosController implements Initializable {
 
     public void setStage(Stage tela) {
         this.stage = tela;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.clienteLogado = cliente;
+        // Você pode usar clienteLogado.getNome() para exibir o nome no futuro
     }
 
     @Override
@@ -72,16 +79,13 @@ public class ListagemProdutosController implements Initializable {
             FilteredList<Produto> listaFiltrada = new FilteredList<>(lista, p -> true);
 
             txtPesquisarProduto.textProperty().addListener((obs, oldVal, newVal) -> {
-                listaFiltrada.setPredicate(produto -> {
-                    if (newVal == null || newVal.isEmpty()) {
-                        return true;
-                    }
-                    String filtro = newVal.toLowerCase();
-                    return produto.getDescricao().toLowerCase().contains(filtro)
-                            || String.valueOf(produto.getId()).contains(filtro)
-                            || produto.getValor().toString().contains(filtro)
-                            || String.valueOf(produto.getQuantidadeEstoque()).contains(filtro);
-                });
+                String filtro = newVal == null ? "" : newVal.toLowerCase();
+                listaFiltrada.setPredicate(produto -> 
+                    produto.getDescricao().toLowerCase().contains(filtro)
+                    || String.valueOf(produto.getId()).contains(filtro)
+                    || produto.getValor().toString().contains(filtro)
+                    || String.valueOf(produto.getQuantidadeEstoque()).contains(filtro)
+                );
             });
 
             SortedList<Produto> listaOrdenada = new SortedList<>(listaFiltrada);
@@ -92,15 +96,6 @@ public class ListagemProdutosController implements Initializable {
             AlertaUtil.mostrarErro("Nenhum produto encontrado", "Nenhum produto disponível para listar.");
         }
     }
- //   @FXML
-//void tabelaProdutosClick(javafx.scene.input.MouseEvent event) {
- //   if (event.getClickCount() == 1) {
-   //     Produto produtoSelecionado = tabelaProdutos.getSelectionModel().getSelectedItem();
-     //   if (produtoSelecionado != null) {
-        //    System.out.println("Produto selecionado: " + produtoSelecionado.getDescricao());
-   //     }
-   // }
-//}
 
     @FXML
     void btnFecharProdutoClick() {

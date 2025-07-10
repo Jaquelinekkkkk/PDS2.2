@@ -6,7 +6,7 @@ import javafx.collections.ObservableList;
 
 public class ClienteDAO extends GenericDAO {
 
-    // 🚀 Salvar novo cliente
+    //  Salvar novo cliente
     public void salvar(Cliente cliente) throws SQLException {
         String insert = "INSERT INTO cliente (nome, telefone, endereco, data_nascimento, login, senha) VALUES (?, ?, ?, ?, ?, ?)";
         save(insert,
@@ -19,7 +19,7 @@ public class ClienteDAO extends GenericDAO {
         );
     }
 
-    // 📝 Alterar cliente existente
+    //  Alterar cliente existente
     public void alterar(Cliente cliente) throws SQLException {
         String update = "UPDATE cliente SET nome = ?, telefone = ?, endereco = ?, data_nascimento = ?, login = ?, senha = ? WHERE id = ?";
         update(update,
