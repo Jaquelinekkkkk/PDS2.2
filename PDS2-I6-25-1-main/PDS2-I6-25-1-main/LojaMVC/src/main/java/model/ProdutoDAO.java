@@ -53,7 +53,7 @@ public class ProdutoDAO {
     public void removerDoEstoque(int produtoId) throws SQLException {
     try (Connection conn = ConexaoBD.conectar()) {
 
-        // Diminui o estoque
+        // Dimiinui o estoque
         String sqlUpdate = "UPDATE produto SET quantidade_estoque = quantidade_estoque - 1 WHERE id = ?";
         try (PreparedStatement stmtUpdate = conn.prepareStatement(sqlUpdate)) {
             stmtUpdate.setInt(1, produtoId);
